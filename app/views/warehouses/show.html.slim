@@ -1,0 +1,13 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @warehouse.title
+
+p
+  strong Region:
+  = @warehouse.region
+
+=> link_to 'Edit', edit_warehouse_path(@warehouse)
+'|
+=< link_to 'Back', warehouses_path

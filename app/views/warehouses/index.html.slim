@@ -1,0 +1,23 @@
+h1 Listing warehouses
+
+table
+  thead
+    tr
+      th Title
+      th Region
+      th
+      th
+      th
+
+  tbody
+    - @warehouses.each do |warehouse|
+      tr
+        td = warehouse.title
+        td = warehouse.region
+        td = link_to 'Show', warehouse
+        td = link_to 'Edit', edit_warehouse_path(warehouse)
+        td = link_to 'Destroy', warehouse, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Warehouse', new_warehouse_path
