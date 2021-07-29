@@ -6,7 +6,7 @@
         - @product.errors.full_messages.each do |message|
           li = message
 
-  .field
-    = f.label "Название"
-    = f.text_field :title
-  .actions = f.submit
+  .form-group
+    = f.label :title, "Название"
+    = f.text_field :title, class: "form-control"
+  .actions = f.submit class: "btn btn-success my-2"

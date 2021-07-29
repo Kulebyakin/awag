@@ -4,16 +4,20 @@ table.table.table-stripped
   thead
     tr
       th Название
-      th
+      th Дата создания
+      th Дата редактирования
+      th Действия
       th
 
   tbody
     - @products.each do |product|
       tr
         td = product.title
+        td = product.created_at
+        td = product.updated_at
         td = link_to 'Редактирование товара', edit_product_path(product)
         td = link_to 'Удаление товара', product, data: { confirm: 'Are you sure?' }, method: :delete
 
 br
 
-= link_to 'Создать товар', new_product_path
+= link_to 'Создать товар', new_product_path, class: "btn btn-success"

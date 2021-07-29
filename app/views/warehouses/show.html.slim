@@ -1,9 +1,8 @@
-p
-  strong Название: 
+h3.my-3
   = @warehouse.title
 
-p
-  strong Регион: 
-  = @warehouse.region
-
-=< link_to 'Назад', warehouses_path
+= link_to "Доставка товаров", products_path, class: "btn btn-success my-1"
+br
+= link_to "История доставки", products_path, class: "btn btn-success my-1"
+br
+= link_to 'Назад', warehouses_path

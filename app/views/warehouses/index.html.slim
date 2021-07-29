@@ -4,18 +4,18 @@ table.table.table-stripped
   thead
     tr
       th Название
-      th Федеральный округ
-      th
+      th Дата создания
+      th Действия
       th
 
   tbody
     - @warehouses.each do |warehouse|
       tr
         td = warehouse.title
-        td = warehouse.region
+        td = warehouse.created_at
         td = link_to 'Склад', warehouse
         td = link_to 'Удаление склада', warehouse, data: { confirm: 'Are you sure?' }, method: :delete
 
 br
 
-= link_to 'Создать склад', new_warehouse_path
+= link_to 'Создать склад', new_warehouse_path, class: "btn btn-success"
