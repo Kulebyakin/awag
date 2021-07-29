@@ -1,5 +1,5 @@
 class WarehousesController < ApplicationController
-  before_action :set_warehouse, only: %i[ show edit update destroy ]
+  before_action :set_warehouse, only: %i[ show destroy ]
 
   # GET /warehouses or /warehouses.json
   def index
@@ -15,10 +15,6 @@ class WarehousesController < ApplicationController
     @warehouse = Warehouse.new
   end
 
-  # GET /warehouses/1/edit
-  def edit
-  end
-
   # POST /warehouses or /warehouses.json
   def create
     @warehouse = Warehouse.new(warehouse_params)
@@ -29,19 +25,6 @@ class WarehousesController < ApplicationController
         format.json { render :show, status: :created, location: @warehouse }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @warehouse.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /warehouses/1 or /warehouses/1.json
-  def update
-    respond_to do |format|
-      if @warehouse.update(warehouse_params)
-        format.html { redirect_to @warehouse, notice: "Warehouse was successfully updated." }
-        format.json { render :show, status: :ok, location: @warehouse }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @warehouse.errors, status: :unprocessable_entity }
       end
     end

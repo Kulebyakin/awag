@@ -1,11 +1,10 @@
-h1 Listing warehouses
+h3 Список складов
 
-table
+table.table.table-stripped
   thead
     tr
-      th Title
-      th Region
-      th
+      th Название
+      th Федеральный округ
       th
       th
 
@@ -14,10 +13,9 @@ table
       tr
         td = warehouse.title
         td = warehouse.region
-        td = link_to 'Show', warehouse
-        td = link_to 'Edit', edit_warehouse_path(warehouse)
-        td = link_to 'Destroy', warehouse, data: { confirm: 'Are you sure?' }, method: :delete
+        td = link_to 'Склад', warehouse
+        td = link_to 'Удаление склада', warehouse, data: { confirm: 'Are you sure?' }, method: :delete
 
 br
 
-= link_to 'New Warehouse', new_warehouse_path
+= link_to 'Создать склад', new_warehouse_path
