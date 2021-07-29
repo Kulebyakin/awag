@@ -1,3 +1,6 @@
 class Product < ApplicationRecord
-  validations :title, presence: true, uniqueness: true
+  has_many :deliveries
+  has_many :warehouses, through: :deliveries
+
+  validates :title, presence: true, uniqueness: true
 end

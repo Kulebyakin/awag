@@ -1,4 +1,7 @@
 class Warehouse < ApplicationRecord
-  validations :title, presence: true, uniqueness: true
+  has_many :deliveries
+  has_many :products, through: :deliveries
+
+  validates :title, presence: true, uniqueness: true
   validates :region, presence: true
 end
