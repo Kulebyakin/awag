@@ -1,0 +1,15 @@
+h3.my-3 История доставок
+
+table.table 
+  thead 
+    th Дата доставки
+    th Товар
+    / th Количество
+    / th Склад
+  tbody 
+    - @deliveries.each_with_index do |delivery, i|
+      tr  
+        td = delivery.created_at if @deliveries[i].created_at.round(0) != @deliveries[i-1].created_at.round(0)
+        td 
+          span = "#{Product.find(delivery.product_id).title}: #{delivery.amount}"
+        td = Warehouse.find(delivery.warehouse_id).title

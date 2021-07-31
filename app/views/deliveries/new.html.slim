@@ -1,0 +1,28 @@
+h3.my-3 Новая доставка
+
+= form_with model: [ :warehouse, @delivery ] do |f|
+  - if @delivery.errors.any?
+    #error_explanation
+      h5.my-3 = "#{pluralize(@delivery.errors.count, 'error')} prohibited this delivery from being saved:"
+      ul
+        - @delivery.errors.full_messages.each do |message|
+          li = message
+
+  / = f.label :created_at, "Дата"
+  / = f.date_field :created_at, class: "form-control"
+  table.table
+    thead 
+      th Товар
+      th Количество
+      th 
+
+    tbody 
+      - @products.each_with_index do |product, i|  
+        tr 
+          = fields_for "delivery[]", @delivery do |delivery_form|
+            = delivery_form.hidden_field :warehouse_id, value: params[:warehouse_id]
+            = delivery_form.hidden_field :product_id, value: product.id
+            td = product.title
+            td = delivery_form.number_field :amount, class: "form-control"
+
+  .actions = f.submit class: "btn btn-success my-2"

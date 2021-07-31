@@ -8,6 +8,8 @@ class WarehousesController < ApplicationController
 
   # GET /warehouses/1 or /warehouses/1.json
   def show
+    @products = Product.order(title: :asc)
+    @deliveries = @warehouse.deliveries
   end
 
   # GET /warehouses/new
@@ -21,7 +23,7 @@ class WarehousesController < ApplicationController
 
     respond_to do |format|
       if @warehouse.save
-        format.html { redirect_to @warehouse, notice: "Warehouse was successfully created." }
+        format.html { redirect_to warehouses_path, notice: "Warehouse was successfully created." }
         format.json { render :show, status: :created, location: @warehouse }
       else
         format.html { render :new, status: :unprocessable_entity }

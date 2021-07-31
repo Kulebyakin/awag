@@ -1,8 +1,26 @@
-h3.my-3
-  = @warehouse.title
+h3.my-3 = @warehouse.title
 
-= link_to "Доставка товаров", products_path, class: "btn btn-success my-1"
+- if @deliveries.any?
+  table.table.table-striped
+    thead
+      tr
+        th Товар
+        th Общее количество
+        th Дата последней доставки
+
+    tbody
+      - @products.each do |product|
+        tr 
+          - if @deliveries.where(product_id: product.id).any?
+            td = product.title
+            td = @deliveries.where(product_id: product.id).sum(:amount)
+            td = @deliveries.where(product_id: product.id).last.created_at
+
 br
-= link_to "История доставки", products_path, class: "btn btn-success my-1"
+br
+
+= link_to "Доставка товаров", new_warehouse_delivery_path(@warehouse), class: "btn btn-success my-1"
+br
+= link_to "История доставки", warehouse_deliveries_path(@warehouse), disabled: true, class: "btn btn-success my-1"
 br
 = link_to 'Назад', warehouses_path
