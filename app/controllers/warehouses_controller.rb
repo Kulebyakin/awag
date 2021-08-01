@@ -9,7 +9,7 @@ class WarehousesController < ApplicationController
   # GET /warehouses/1 or /warehouses/1.json
   def show
     @products = Product.order(title: :asc)
-    @deliveries = @warehouse.deliveries
+    # @deliveries = @warehouse.deliveries
   end
 
   # GET /warehouses/new
