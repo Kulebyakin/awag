@@ -1,6 +1,9 @@
 class Warehouse < ApplicationRecord
   has_many :deliveries
   has_many :products, through: :deliveries
+  has_many :from_transfers, class_name: 'Transfer', inverse_of: :from_warehouse
+  has_many :to_transfers, class_name: 'Transfer', inverse_of: :to_warehouse
+  has_many :products, through: :transfers
 
   validates :title, presence: true, uniqueness: true
   validates :region, presence: true

@@ -1,0 +1,32 @@
+h3.my-3 Товары для передачи
+
+= form_with model: @transfer, url: transfer_index_path do |f|
+  / - if @transfers.errors.any?
+  /   #error_explanation
+  /     h5.my-3 = "#{pluralize(@transfer.errors.count, 'error')} prohibited this transfer from being saved:"
+  /     ul
+  /       - @transfer.errors.full_messages.each do |message|
+  /         li = message
+
+  table.table
+    thead 
+      th Товар
+      th = @from_warehouse.title
+      th Количество
+      th = @to_warehouse.title
+      th 
+
+    tbody 
+
+      - @products.each_with_index do |product, i|  
+        tr 
+          = fields_for 'transfer_finish[]', @transfer do |transfer_form|
+            = transfer_form.hidden_field :from_warehouse, value: @from_warehouse
+            = transfer_form.hidden_field :to_warehouse, value: @to_warehouse
+            = transfer_form.hidden_field :product_id, value: product.id
+            td = product.title
+            td = Warehouse.find(@from_warehouse.id).deliveries.where(product_id: product.id).sum(:amount)
+            td = transfer_form.number_field :amount, value: product.id, class: "form-control"
+            td = Warehouse.find(@to_warehouse.id).deliveries.where(product_id: product.id).sum(:amount)
+      
+  .actions = f.submit class: "btn btn-success my-2"

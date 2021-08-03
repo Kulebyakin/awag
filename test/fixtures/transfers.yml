@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_warehouse_id: one
+  to_warehouse_id: one
+  product: one
+  amount: 1
+
+two:
+  from_warehouse_id: two
+  to_warehouse_id: two
+  product: two
+  amount: 1

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_29_033607) do
+ActiveRecord::Schema.define(version: 2021_08_02_073516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 2021_07_29_033607) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "transfers", force: :cascade do |t|
+    t.integer "from_warehouse_id", null: false
+    t.integer "to_warehouse_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_transfers_on_product_id"
+  end
+
   create_table "warehouses", force: :cascade do |t|
     t.string "title"
     t.integer "region"
@@ -40,4 +50,5 @@ ActiveRecord::Schema.define(version: 2021_07_29_033607) do
 
   add_foreign_key "deliveries", "products"
   add_foreign_key "deliveries", "warehouses"
+  add_foreign_key "transfers", "products"
 end

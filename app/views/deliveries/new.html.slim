@@ -15,8 +15,6 @@ h3.my-3 Новая доставка
       th 
 
     tbody 
-      / = f.label :created_at, "Дата"
-      / = f.date_field :created_at, class: "form-control"
 
       - @products.each_with_index do |product, i|  
         tr 
@@ -25,5 +23,6 @@ h3.my-3 Новая доставка
             = delivery_form.hidden_field :product_id, value: product.id
             td = product.title
             td = delivery_form.number_field :amount, class: "form-control"
-
+            / = delivery_form.date_field :created_at, class: "form-control" if i == 0
+      
   .actions = f.submit class: "btn btn-success my-2"

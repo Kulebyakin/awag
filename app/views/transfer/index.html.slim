@@ -1,0 +1,25 @@
+h3.my-3 История передач
+
+- if @transfers.any?
+  table.table 
+    thead 
+      th Дата передачи
+      th Товар
+
+    tbody 
+      
+      
+      - @result.each do |key, val|
+        / - @deliveries.each_with_index do |delivery, i|
+          - if ddt == delivery.created_at
+        tr 
+          td = key 
+          td 
+            - val.each do |v|
+              = v
+              br
+          /   span = "#{Product.find(delivery.product_id).title}: #{delivery.amount}"
+          /   br
+
+- else 
+  p Передач на этот склад еще не было

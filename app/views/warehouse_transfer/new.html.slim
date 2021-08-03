@@ -1,0 +1,18 @@
+h3.my-3 Новая передача
+
+= form_with model: @transfer, url: warehouse_transfer_index_path do |f|
+  / - if @transfer.errors.any?
+  /   #error_explanation
+  /     h5.my-3 = "#{pluralize(@transfer.errors.count, 'error')} prohibited this transfer from being saved:"
+  /     ul
+  /       - @transfer.errors.full_messages.each do |message|
+  /         li = message
+
+  .form-group.mt-2
+    = f.label :from_warehouse, "Склад передачи"
+    = f.collection_select :from_warehouse, Warehouse.all, :id, :title, class: "form-select"
+  .form-group.mt-2
+    = f.label :to_warehouse, "Склад назначения"
+    = f.collection_select :to_warehouse, Warehouse.all, :id, :title, class: "form-select"
+      
+  .actions = f.submit "Далее", class: "btn btn-success my-2"
