@@ -5,6 +5,8 @@ h3.my-3 История передач
     thead 
       th Дата передачи
       th Товар
+      th Из склада
+      th В склад
 
     tbody 
       
@@ -14,8 +16,10 @@ h3.my-3 История передач
           - if ddt == delivery.created_at
         tr 
           td = key 
+          td = val[:from_warehouse] 
+          td = val[:to_warehouse] 
           td 
-            - val.each do |v|
+            - val[:product_amount].each do |v|
               = v
               br
           /   span = "#{Product.find(delivery.product_id).title}: #{delivery.amount}"

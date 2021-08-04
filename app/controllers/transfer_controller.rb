@@ -57,10 +57,13 @@ class TransferController < ApplicationController
     end
 
     @transfers_datetime.each_with_index do |tdt, i|
-      @result[@transfers_datetime[i]] = []
+      @result[tdt] = {}
+      @result[tdt][:product_amount] = []
       @transfers.each do |transfer|
-        if @transfers_datetime[i].round(0) == transfer.created_at.round(0)
-          @result[@transfers_datetime[i]] << "#{Product.find(transfer.product_id).title}: #{transfer.amount}"
+        if tdt.round(0) == transfer.created_at.round(0)
+          @result[tdt][:from_warehouse] = transfer.from_warehouse.title
+          @result[tdt][:to_warehouse] = transfer.to_warehouse.title
+          @result[tdt][:product_amount] << "#{Product.find(transfer.product_id).title}: #{transfer.amount}"
         end
       end 
     end
