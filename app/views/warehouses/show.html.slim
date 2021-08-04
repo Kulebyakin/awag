@@ -19,7 +19,7 @@ h3.my-3 = @warehouse.title
   br = link_to "Доставка товаров", new_warehouse_delivery_path(@warehouse), class: "btn btn-success my-1"
   = link_to "История доставки", warehouse_deliveries_path(@warehouse), class: "btn btn-success my-1"
   br = link_to "Передача товаров", new_warehouse_transfer_path, class: "btn btn-success my-1"
-  = link_to "История передач", transfer_index_path(@warehouse), class: "btn btn-success my-1"
+  = link_to "История передач", transfer_index_path, class: "btn btn-success my-1"
   br = link_to 'Назад', warehouses_path
 
 - else 
