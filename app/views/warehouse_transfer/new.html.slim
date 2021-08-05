@@ -1,12 +1,12 @@
 h3.my-3 Новая передача
 
-= form_with model: @transfer, url: warehouse_transfer_index_path do |f|
-  / - if @transfer.errors.any?
-  /   #error_explanation
-  /     h5.my-3 = "#{pluralize(@transfer.errors.count, 'error')} prohibited this transfer from being saved:"
-  /     ul
-  /       - @transfer.errors.full_messages.each do |message|
-  /         li = message
+= form_with model: @transfer_start, url: warehouse_transfer_index_path do |f|
+  - if @transfer_start.errors.any?
+    #error_explanation
+      h5.my-3 = "#{pluralize(@transfer_start.errors.count, 'error')} prohibited this transfer from being saved:"
+      ul
+        - @transfer_start.errors.full_messages.each do |message|
+          li = message
 
   .form-group.mt-2
     = f.label :from_warehouse, "Склад передачи"

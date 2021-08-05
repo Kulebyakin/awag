@@ -1,7 +1,7 @@
 class WarehouseTransferController < ApplicationController
 
   def new
-    @transfer = TransferStart.new
+    @transfer_start = TransferStart.new
     @warehouse_selector = Warehouse.all.pluck(:title)
   end
 
@@ -22,6 +22,6 @@ class WarehouseTransferController < ApplicationController
   private
 
   def warehouse_transfer_params
-    params.permit(transfer_start: [:from_warehouse, :to_warehouse]).require(:transfer_start)
+    params.permit(:authenticity_token, :commit, transfer_start: [:from_warehouse, :to_warehouse]).require(:transfer_start)
   end
 end

@@ -8,29 +8,17 @@ class TransferController < ApplicationController
     @products = Product.order(title: :asc)
     @from_warehouse = Warehouse.find(session['transfer_start']['from_warehouse'])
     @to_warehouse = Warehouse.find(session['transfer_start']['to_warehouse'])
-    @transfer = TransferFinish.new
+    @transfer = Transfer.new
   end
 
   def create
-    # @transfer_finish = TransferFinish.new(transfer_params)
-    # if @transfer_finish.valid?
-    #   full_params = fransfer_finish_params.merge(
-    #     from_warehouse: session['transfer_start']['from_warehouse'],
-    #     to_warehouse: session['transfer_start']['to_warehouse']
-    #   )
-
-      @transfer = Transfer.create(transfer_params)
-      if @transfer.each { |transfer| transfer.save }
-      # if @transfer.save
-        session.delete('transfer_start')
-        redirect_to transfer_index_path
-      else
-        render :new, alert: "Error"
-      end
-
-    # else
-    #   render :new
-    # end
+    @transfer = Transfer.create!(transfer_params)
+    if @transfer.each { |transfer| transfer.save }
+      session.delete('transfer_start')
+      redirect_to transfer_index_path
+    else
+      render :new, alert: "Error"
+    end
   end
 
   private
@@ -70,6 +58,6 @@ class TransferController < ApplicationController
   end
 
   def transfer_params
-    params.permit(:authenticity_token, :commit, :transfer => [:from_warehouse_id, :to_warehouse_id, :amount, :product_id]).require(:transfer)
+    params.permit(:authenticity_token, :commit, transfer: [:from_warehouse_id, :to_warehouse_id, :amount, :product_id]).require(:transfer)
   end
 end
