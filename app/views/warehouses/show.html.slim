@@ -1,6 +1,6 @@
 h3.my-3 = @warehouse.title
 
-- if @warehouse.deliveries.any?
+- if @warehouse.deliveries.any? || Transfer.where(to_warehouse: @warehouse).sum(:amount) - Transfer.where(from_warehouse: @warehouse).sum(:amount) > 0
   table.table.table-striped
     thead
       tr
@@ -11,20 +11,28 @@ h3.my-3 = @warehouse.title
     tbody
       - @products.each do |product|
         tr 
-          - if @warehouse.deliveries.where(product_id: product.id).any?
-            td = product.title
-            td = @warehouse.deliveries.where(product_id: product.id).sum(:amount)
-            td = @warehouse.deliveries.where(product_id: product.id).last.created_at
-
-  br = link_to "Доставка товаров", new_warehouse_delivery_path(@warehouse), class: "btn btn-success my-1"
-  = link_to "История доставки", warehouse_deliveries_path(@warehouse), class: "btn btn-success my-1"
-  br = link_to "Передача товаров", new_warehouse_transfer_path, class: "btn btn-success my-1"
-  = link_to "История передач", transfer_index_path, class: "btn btn-success my-1"
-  br = link_to 'Назад', warehouses_path
+          / - if @warehouse.deliveries.where(product_id: product.id).any?
+          - delivery_summ = @warehouse.deliveries.where(product_id: product.id).sum(:amount)
+          - transfers_from = Transfer.where(from_warehouse: @warehouse, product_id: product.id).sum(:amount)
+          - transfers_to = Transfer.where(to_warehouse: @warehouse, product_id: product.id).sum(:amount)
+          - total_amount = delivery_summ - transfers_from + transfers_to
+          td = product.title
+          td = total_amount
+          - if @warehouse.deliveries.where(product_id: product.id).last
+            td = @warehouse.deliveries.where(product_id: product.id).last.created_at 
+          - else
+            td Доставок не было
 
 - else 
   p Склад пуст
 
-  br = link_to "Доставка товаров", new_warehouse_delivery_path(@warehouse), class: "btn btn-success my-1"
-  = button_to "История доставки", warehouse_deliveries_path(@warehouse), class: "btn btn-success my-1", disabled: true
-  br = link_to 'Назад', warehouses_path
+- if @warehouse.deliveries.any?
+  .my-2 = link_to "Доставка товаров", new_warehouse_delivery_path(@warehouse), class: "btn btn-success"
+  .my-2 = link_to "История доставки", warehouse_deliveries_path(@warehouse), class: "btn btn-success"
+- else
+  .my-2 = link_to "Доставка товаров", new_warehouse_delivery_path(@warehouse), class: "btn btn-success"
+  .my-2 = button_to "История доставки", warehouse_deliveries_path(@warehouse), class: "btn btn-success", disabled: true
+
+.my-2 = link_to "Передача товаров", new_warehouse_transfer_path, class: "btn btn-success"
+.my-2 = link_to "История передач", transfer_index_path, class: "btn btn-success"
+.my-2 = link_to 'Назад', warehouses_path

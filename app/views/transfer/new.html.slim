@@ -1,12 +1,12 @@
 h3.my-3 Товары для передачи
 
 = form_with model: @transfer, url: transfer_index_path do |f|
-  / - if @transfers.errors.any?
-  /   #error_explanation
-  /     h5.my-3 = "#{pluralize(@transfer.errors.count, 'error')} prohibited this transfer from being saved:"
-  /     ul
-  /       - @transfer.errors.full_messages.each do |message|
-  /         li = message
+  - if @transfer.errors.any?
+    #error_explanation
+      h5.my-3 = "#{pluralize(@transfer.errors.count, 'error')} prohibited this transfer from being saved:"
+      ul
+        - @transfer.errors.full_messages.each do |message|
+          li = message
 
   table.table
     thead 
@@ -20,13 +20,23 @@ h3.my-3 Товары для передачи
 
       - @products.each_with_index do |product, i|  
         tr 
-          = fields_for 'transfer[]', @transfer do |transfer_form|
-            = transfer_form.hidden_field :from_warehouse_id, value: @from_warehouse.id
-            = transfer_form.hidden_field :to_warehouse_id, value: @to_warehouse.id
-            = transfer_form.hidden_field :product_id, value: product.id
-            td = product.title
-            td = Warehouse.find(@from_warehouse.id).deliveries.where(product_id: product.id).sum(:amount)
-            td = transfer_form.number_field :amount, value: product.id, class: "form-control"
-            td = Warehouse.find(@to_warehouse.id).deliveries.where(product_id: product.id).sum(:amount)
+        - delivery_summ_from = Warehouse.find(@from_warehouse.id).deliveries.where(product_id: product.id).sum(:amount)
+        - from_transfers_from = Transfer.where(from_warehouse: @from_warehouse, product_id: product.id).sum(:amount)
+        - from_transfers_to = Transfer.where(to_warehouse: @from_warehouse, product_id: product.id).sum(:amount)
+        - total_amount_from = delivery_summ_from - from_transfers_from + from_transfers_to
+
+        - delivery_summ_to = Warehouse.find(@to_warehouse.id).deliveries.where(product_id: product.id).sum(:amount)
+        - to_transfers_from = Transfer.where(from_warehouse: @to_warehouse, product_id: product.id).sum(:amount)
+        - to_transfers_to = Transfer.where(to_warehouse: @to_warehouse, product_id: product.id).sum(:amount)
+        - total_amount_to = delivery_summ_to - to_transfers_from + to_transfers_to
+
+        = fields_for 'transfer[]', @transfer do |transfer_form|
+          = transfer_form.hidden_field :from_warehouse_id, value: @from_warehouse.id
+          = transfer_form.hidden_field :to_warehouse_id, value: @to_warehouse.id
+          = transfer_form.hidden_field :product_id, value: product.id
+          td = product.title
+          td = total_amount_from
+          td = transfer_form.number_field :amount, value: product.id, class: "form-control"
+          td = total_amount_to
       
   .actions = f.submit "Передать", class: "btn btn-success my-2"
