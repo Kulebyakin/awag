@@ -12,7 +12,7 @@ class TransferController < ApplicationController
   end
 
   def create
-    @transfer = Transfer.create!(transfer_params)
+    @transfer = Transfer.create(transfer_params)
     if @transfer.each { |transfer| transfer.save }
       session.delete('transfer_start')
       redirect_to transfer_index_path
