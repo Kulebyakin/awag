@@ -1,8 +1,6 @@
 class Product < ApplicationRecord
-  has_many :deliveries, dependent: :destroy
-  has_many :warehouses, through: :deliveries
-  has_many :transfers, dependent: :destroy
-  has_many :warehouses, through: :transfers
+  has_many :product_warehouses, dependent: :destroy
+  has_many :warehouses, through: :product_warehouse
 
   validates :title, presence: true, uniqueness: true
 end
