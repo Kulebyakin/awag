@@ -2,7 +2,6 @@ class WarehouseTransferController < ApplicationController
 
   def new
     @transfer_start = TransferStart.new
-    @warehouse_selector = Warehouse.all.pluck(:title)
   end
 
   def create

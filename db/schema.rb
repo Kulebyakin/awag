@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_02_073516) do
+ActiveRecord::Schema.define(version: 2021_08_10_070802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,8 +21,20 @@ ActiveRecord::Schema.define(version: 2021_08_02_073516) do
     t.bigint "product_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "date"
     t.index ["product_id"], name: "index_deliveries_on_product_id"
     t.index ["warehouse_id"], name: "index_deliveries_on_warehouse_id"
+  end
+
+  create_table "product_warehouses", force: :cascade do |t|
+    t.bigint "warehouse_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "amount", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_warehouses_on_product_id"
+    t.index ["warehouse_id", "product_id"], name: "index_product_warehouses_on_warehouse_id_and_product_id", unique: true
+    t.index ["warehouse_id"], name: "index_product_warehouses_on_warehouse_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -50,5 +62,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_073516) do
 
   add_foreign_key "deliveries", "products"
   add_foreign_key "deliveries", "warehouses"
+  add_foreign_key "product_warehouses", "products"
+  add_foreign_key "product_warehouses", "warehouses"
   add_foreign_key "transfers", "products"
 end

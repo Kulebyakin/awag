@@ -14,7 +14,7 @@ class DeliveriesController < ApplicationController
     @products = Product.order(title: :asc)
     @delivery = @warehouse.deliveries.create(delivery_params)
 
-    if @delivery.each { |delivery| delivery.save }
+    if @delivery.each { |delivery| delivery.save! }
       redirect_to warehouse_deliveries_path, notice: "Delivery was successfully created."
     else
       render action: :new
